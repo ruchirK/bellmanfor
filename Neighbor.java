@@ -6,8 +6,9 @@ public class Neighbor {
     private DatagramSocket sendSocket = null; 
     private int destPort = 0;
     private InetAddress destIP = null;
-    private boolean active = true; 
+    private boolean active = false;  //indicates direct link 
     private double linkCost = 10000;
+    private double cost = 1000000;
     private boolean directNeighbor = false;
     private InetAddress firstHop = null;
     private int firstHopPort = 0;
@@ -21,7 +22,7 @@ public class Neighbor {
         this.directNeighbor = true; 
         this.firstHop = destIP;
         this.firstHopPort = destPort;
-        
+        this.active = true;
         this.sendSocket = new DatagramSocket();
         this.lastChecked = System.currentTimeMillis();
         
@@ -33,7 +34,7 @@ public class Neighbor {
         this.directNeighbor = true; 
         this.firstHop = destIP;
         this.firstHopPort = destPort;
-        
+        this.active = true;
         this.sendSocket = new DatagramSocket();
         this.lastChecked = System.currentTimeMillis();
         
@@ -49,12 +50,12 @@ public class Neighbor {
         //sendSocket = new DatagramSocket();
         
     }
-    public Neighbor(InetAddress destAddress, InetAddress linkAddr, int portNum, double cost){
+    public Neighbor(InetAddress destAddress, InetAddress linkAddr, int portNum, double mycost){
         this.destPort = portNum;
         this.destIP = destAddress;
         this.firstHop = linkAddr;
         this.firstHopPort = portNum;
-        this.linkCost = cost;
+        this.cost = mycost;
     }
     
     public void sendToNeighbor (byte[] distVector) throws IOException {
@@ -72,7 +73,11 @@ public class Neighbor {
     }
     
     public void setLinkCost (double newCost){
-       this.linkCost = newCost;
+       if (active){
+           this.linkCost = newCost;
+           return;
+       }
+       this.cost = newCost;
     }
     
     public void printNeighbor() {
@@ -81,7 +86,7 @@ public class Neighbor {
         return;
         }
         
-        System.out.format("Destination = %s:%d, Cost = %f, Link = (%s:%d) timed out%n", destIP.getHostAddress(), destPort, linkCost, firstHop.getHostAddress(), firstHopPort);
+        System.out.format("Destination = %s:%d, Cost = %f, Link = (%s:%d) timed out%n", destIP.getHostAddress(), destPort, cost, firstHop.getHostAddress(), firstHopPort);
         
     }
         
@@ -94,7 +99,10 @@ public class Neighbor {
     }
     
     public double getLinkCost() {
+        if(active) {
             return linkCost;
+        }
+        return cost;
     }
     
     public boolean equalsNeighbor(InetAddress addr, int port){
