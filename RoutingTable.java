@@ -28,6 +28,8 @@ public class RoutingTable {
        public RoutingTable(int port, long time) throws UnknownHostException {
               this.myAddr = InetAddress.getLocalHost();
               this.myPort = port;
+              System.out.println("The address is" + myAddr); 
+              System.out.format("The port is %d%n ", myPort); 
               this.timeout = time;
        }
        
@@ -62,7 +64,7 @@ public class RoutingTable {
                long currTime = System.currentTimeMillis();
                System.out.format("<%d>Distance vector is: ", currTime);
                for (Neighbor n : distanceVector) {
-                  if (!n.isNeighor() || n.isActive()){
+                  if (!n.isNeighbor() || n.isActive()){
                       n.printNeighbor();
                   }
                }
@@ -108,10 +110,11 @@ public class RoutingTable {
               //assumes that a distance vector and parses it updating its own data using Bellman Ford
               ByteBuffer recvBuffer = ByteBuffer.wrap(recvData);
               Byte check = recvBuffer.get();
-              if (check != ((byte) 1) || check != ((byte) 3)){
+              if (check != ((byte) 1) && check != ((byte) 3)){
                   return;
               }
               int senderPort = recvBuffer.getInt();
+	      //System.out.format("Received node from %d%n", senderPort);
               //first determine who sent it and their link cost to you
               double senderLinkCost = 0;
               for (Neighbor n : distanceVector) {
@@ -151,6 +154,8 @@ public class RoutingTable {
                   
                   if(!foundLink && !isMyAddress(linkAddress, linkPort)) {
                       //encountered a new node
+                      System.out.println("Making a new node");
+
                       this.addNewLink(linkAddress, senderAddress, linkPort, (senderLinkCost + linkCost));
                   }
               }
@@ -230,10 +235,12 @@ public class RoutingTable {
       
       public void handleReceivedInitLinkUp(byte[] recvData, InetAddress senderAddress) throws UnknownHostException, SocketException { 
            ByteBuffer recvBuffer = ByteBuffer.wrap(recvData);
+//	   System.out.println("In handle init linkup");
            if (recvBuffer.get() != (byte) 3){
                   return;
            }
            int senderPort = recvBuffer.getInt();
+	   System.out.format("Init linkup from port %d%n", senderPort);
            for (Neighbor n : distanceVector) {
                   if (n.equalsNeighbor(senderAddress, senderPort)) {
                       //you already have this node stored 
@@ -277,7 +284,9 @@ public class RoutingTable {
       }
       
       public void handleReceivedInputs(byte[] data, InetAddress sender) throws UnknownHostException, SocketException {
-         Byte indexByte = data[0];
+        
+	Byte indexByte = data[0];
+          //System.out.format("In received handler start byte is %d%n", indexByte);
          if(indexByte == (byte) 1) {
              this.handleReceivedRouteUpdate(data, sender);
              return;

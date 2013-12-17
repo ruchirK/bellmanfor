@@ -123,7 +123,7 @@ public class Neighbor {
         long duration = currTime - lastChecked;
         if(duration > (3 * timeout)) {
             this.setActive(false);
-	    System.out.format("The node %d%n", destPort);
+	    System.out.format("The node %d timedout%n", destPort);
         }
         
     }

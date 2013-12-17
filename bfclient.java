@@ -137,12 +137,12 @@ public class bfclient {
                     InetAddress senderAddress = null;
                     int inputSize = 0;
                     DatagramPacket packet = new DatagramPacket(data, data.length);
-                    System.out.println("Waiting in receive loop");
+                    //System.out.println("Waiting in receive loop");
                     try {
                         listenSocket.receive(packet);
                         senderAddress = packet.getAddress();
                         inputSize = packet.getLength();
-                        System.out.println("Received from "+ senderAddress);
+                        System.out.println("Received from "+ packet.getSocketAddress());
                    }
                    catch (IOException e) {
                         System.out.println("IO Error "+e);
@@ -150,7 +150,7 @@ public class bfclient {
                    
                    byte[] recvData = new byte[inputSize];
                    System.arraycopy(packet.getData(), 0, recvData, 0, inputSize);
-                   System.out.println("Processing input now");
+                   //System.out.println("Processing input now");
                    try {
                        myTable.handleReceivedInputs(recvData, senderAddress);
                    }
@@ -171,8 +171,14 @@ public class bfclient {
                 long time = System.currentTimeMillis();
                 long check = System.currentTimeMillis();
                 long i = 0;
+                try{
+                   myTable.initialLinkUp();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
                 while (isRunning) {
-                    if((check - time) > (timeout - 500) ){
+                    if((check - time) > (timeout - 200) ){
                        try{
                            myTable.sendRouteUpdate();
                        }
