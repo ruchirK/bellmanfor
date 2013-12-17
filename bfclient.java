@@ -23,7 +23,7 @@ public class bfclient {
     public static void readCommandLine(String[] args) {
     //used at startup, reads commands and neighbor data into routing table
         if(args.length < 3 || ((args.length-2)%3 != 0)) {
-            System.out.println("Usage: java bfclient <localport> <timeout> <number_neigbors> <neighbor1 ip> <neighbor1 port> <neighbor1 link cost>");
+            System.out.println("Usage: java bfclient <localport> <timeout> <neighbor1 ip> <neighbor1 port> <neighbor1 link cost>");
             System.exit(1);
         }
         localPort = Integer.parseInt(args[0]);
