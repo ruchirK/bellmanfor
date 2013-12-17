@@ -142,7 +142,7 @@ public class bfclient {
                         listenSocket.receive(packet);
                         senderAddress = packet.getAddress();
                         inputSize = packet.getLength();
-                        System.out.println("Received from "+ packet.getSocketAddress());
+                        //System.out.println("Received from "+ packet.getSocketAddress());
                    }
                    catch (IOException e) {
                         System.out.println("IO Error "+e);

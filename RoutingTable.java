@@ -1,3 +1,5 @@
+//Networks 4119 Ruchir Khaitan class to represent a routing table and perform all neccessary functions on it
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Collections;
@@ -28,8 +30,8 @@ public class RoutingTable {
        public RoutingTable(int port, long time) throws UnknownHostException {
               this.myAddr = InetAddress.getLocalHost();
               this.myPort = port;
-              System.out.println("The address is" + myAddr); 
-              System.out.format("The port is %d%n ", myPort); 
+              //System.out.println("The address is" + myAddr); 
+              //System.out.format("The port is %d%n ", myPort); 
               this.timeout = time;
        }
        
@@ -154,7 +156,7 @@ public class RoutingTable {
                   
                   if(!foundLink && !isMyAddress(linkAddress, linkPort)) {
                       //encountered a new node
-                      System.out.println("Making a new node");
+                     // System.out.println("Making a new node");
 
                       this.addNewLink(linkAddress, senderAddress, linkPort, (senderLinkCost + linkCost));
                   }
@@ -187,11 +189,11 @@ public class RoutingTable {
            int result = this.modifyLink(destAddr, destPort, value);
            
            if(currActive != (result + 1) && !value) {
-               System.out.format("Sorry could not remove %s:%s not a direct neighbor", destAddress, destPortNum);
+               //System.out.format("Sorry could not remove %s:%s not a direct neighbor", destAddress, destPortNum);
                return;           
             }
             if(currActive != (result - 1) && value) {
-               System.out.format("Sorry could not add %s:%s not previously a direct neighbor", destAddress, destPortNum);
+               //System.out.format("Sorry could not add %s:%s not previously a direct neighbor", destAddress, destPortNum);
                return;           
             }
             
@@ -240,7 +242,7 @@ public class RoutingTable {
                   return;
            }
            int senderPort = recvBuffer.getInt();
-	   System.out.format("Init linkup from port %d%n", senderPort);
+	   //System.out.format("Init linkup from port %d%n", senderPort);
            for (Neighbor n : distanceVector) {
                   if (n.equalsNeighbor(senderAddress, senderPort)) {
                       //you already have this node stored 

@@ -87,7 +87,7 @@ public class Neighbor {
         return;
         }
         
-        System.out.format("Destination = %s:%d, Cost = %f, Link = (%s:%d) timed out%n", destIP.getHostAddress(), destPort, cost, firstHop.getHostAddress(), firstHopPort);
+        System.out.format("Destination = %s:%d, Cost = %f, Link = (%s:%d)%n", destIP.getHostAddress(), destPort, cost, firstHop.getHostAddress(), firstHopPort);
         
     }
         
@@ -123,7 +123,7 @@ public class Neighbor {
         long duration = currTime - lastChecked;
         if(duration > (3 * timeout)) {
             this.setActive(false);
-	    System.out.format("The node %d timedout%n", destPort);
+	    //System.out.format("The node %d timedout%n", destPort);
         }
         
     }
