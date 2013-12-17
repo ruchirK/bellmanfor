@@ -76,7 +76,7 @@ public class RoutingTable {
                //generates byte array to be sent to neighbors
                currentVector.putInt(currentActive);
                for (Neighbor n : distanceVector) {
-                  if (n.isActive()){
+                  if (!n.isNeighbor() || n.isActive()){
                       currentVector.put(n.getDestByteArray());
                       currentVector.putInt(n.getDestPort());
                       currentVector.putDouble(n.getLinkCost());
