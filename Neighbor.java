@@ -13,8 +13,9 @@ public class Neighbor {
     private InetAddress firstHop = null;
     private int firstHopPort = 0;
     private long lastChecked;
-    //private long lastHeardFrom;
-    
+
+
+    //Adds direct neighbor from command line 
     public Neighbor (String ipAddr, String portNum, String destCost) throws UnknownHostException, SocketException{
         this.destPort = Integer.parseInt(portNum);
         this.linkCost = Double.parseDouble(destCost);

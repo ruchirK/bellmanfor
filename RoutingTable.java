@@ -117,6 +117,7 @@ public class RoutingTable {
               for (Neighbor n : distanceVector) {
                   if (n.equalsNeighbor(senderAddress, senderPort)) {
                       //update n's last heard from value
+                      n.setActive(true);
                       n.setTime();
                       senderLinkCost = n.getLinkCost();
                   }
@@ -142,7 +143,7 @@ public class RoutingTable {
                   for (Neighbor n : distanceVector) {
                       if (n.equalsNeighbor(linkAddress, linkPort)) {
                           foundLink = true;
-                          if(n.isActive() && n.getLinkCost() > (senderLinkCost + linkCost)){
+                          if(/*n.isActive() && */ n.getLinkCost() > (senderLinkCost + linkCost)){
                               n.setLinkCost(senderLinkCost+linkCost);
                           }
                       }
