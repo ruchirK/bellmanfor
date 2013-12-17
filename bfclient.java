@@ -172,7 +172,7 @@ public class bfclient {
                 long check = System.currentTimeMillis();
                 long i = 0;
                 while (isRunning) {
-                    if((check - time) > (timeout - 200) ){
+                    if((check - time) > (timeout - 500) ){
                        try{
                            myTable.sendRouteUpdate();
                        }

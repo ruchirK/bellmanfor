@@ -62,9 +62,9 @@ public class RoutingTable {
                long currTime = System.currentTimeMillis();
                System.out.format("<%d>Distance vector is: ", currTime);
                for (Neighbor n : distanceVector) {
-                  //if (n.isActive()){
+                  if (!n.isNeighor() || n.isActive()){
                       n.printNeighbor();
-                  //}
+                  }
                }
        }
        
